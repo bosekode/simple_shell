@@ -19,13 +19,11 @@ void execute_command(char* command) {
         perror("fork");
         exit(1);
     } else if (pid == 0) {
-        // Child process
         if (execlp(command, command, NULL) < 0) {
             printf("Command '%s' not found.\n", command);
             exit(1);
         }
     } else {
-        // Parent process
         wait(NULL);
     }
 }
@@ -37,11 +35,9 @@ int main() {
         display_prompt();
 
         if (fgets(command, BUFFER_SIZE, stdin) == NULL) {
-            // End of file (Ctrl+D) or error reading input
             break;
         }
 
-        // Remove the newline character from the end of the command
         command[strcspn(command, "\n")] = '\0';
 
         execute_command(command);
